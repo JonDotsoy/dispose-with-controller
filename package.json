@@ -1,12 +1,16 @@
 {
   "name": "dispose-with-controller",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A utility to manage and execute disposal callbacks, supporting both synchronous and asynchronous disposal.",
   "main": "./lib/cjs/dispose-with-controller.js",
   "module": "./lib/esm/dispose-with-controller.js",
   "types": "./lib/types/dispose-with-controller.d.ts",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JonDotsoy/dispose-with-controller.git"
+  },
   "scripts": {
     "prepack": "make build"
   },
