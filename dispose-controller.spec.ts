@@ -81,3 +81,22 @@ test("should immediately call [Symbol.asyncDispose] method when asyncDispose is 
 
   expect(obj.closed).toBeTrue();
 });
+
+test("should not call [Symbol.asyncDispose] method if disposed manually", async () => {
+  const obj = new (class {
+    closed = false;
+
+    async [Symbol.asyncDispose]() {
+      await new Promise((r) => setTimeout(r, 10));
+      this.closed = true;
+    }
+  })();
+
+  {
+    await using controller = disposeWithController();
+    controller.add(obj);
+    controller.delete(obj);
+  }
+
+  expect(obj.closed).toBeFalse();
+});
