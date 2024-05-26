@@ -68,6 +68,16 @@ Adds a disposal callback or an object implementing dispose/asyncDispose methods 
 
 - **Description:** Adds a disposal callback to the controller. If the provided argument is a function, it is added directly to the `disposes` set. If it is an object implementing `Symbol.dispose` or `Symbol.asyncDispose`, the respective method is added to the `disposes` set as a callback function.
 
+#### `remove(disposableOrAdopt: DisposableOrOnDispose): void`
+
+Removes a disposal callback or an object implementing dispose/asyncDispose methods to the controller.
+
+- **Parameters:**
+
+  - `disposableOrAdopt`: A disposal callback or an object with `Symbol.dispose` or `Symbol.asyncDispose` methods.
+
+- **Description:** Removes a disposal callback to the controller. If the provided argument is a function, it is added directly to the `disposes` set. If it is an object implementing `Symbol.dispose` or `Symbol.asyncDispose`, the respective method is added to the `disposes` set as a callback function.
+
 #### `dispose(): void`
 
 Synchronously executes all registered disposal callbacks. Alias for `[Symbol.dispose]()`.
