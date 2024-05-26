@@ -32,18 +32,82 @@ controller.add(async () => {
 });
 ```
 
-## API
+# API Documentation
 
-### `disposeWithController()`
+## `DisposeWithController`
 
-Creates a disposal controller that manages a set of disposal callbacks. These callbacks can be either synchronous or asynchronous.
+Class to manage and execute disposal callbacks, supporting both synchronous and asynchronous disposal.
 
-#### Returns
+### Constructor
 
-- **Object**: A disposal controller with the following properties:
-  - `add(cb: () => void | Promise<void>): void`: Adds a disposal callback to the controller. The callback can be either a synchronous function returning `void` or an asynchronous function returning a `Promise<void>`.
-  - `[Symbol.dispose](): void`: Synchronously executes all registered disposal callbacks.
-  - `[Symbol.asyncDispose](): Promise<void>`: Asynchronously executes all registered disposal callbacks, awaiting the completion of each.
+#### `new DisposeWithController(init?: (OnDispose | OnAsyncDispose)[])`
+
+Initializes a new instance of the `DisposeWithController` class.
+
+- **Parameters:**
+  - `init` (optional): An array of disposal callbacks (either synchronous or asynchronous) to initialize the controller with.
+
+### Properties
+
+#### `disposed`
+
+Returns a boolean indicating whether the controller has been disposed.
+
+- **Type:** `boolean`
+- **Description:** True if the controller has been disposed; otherwise, false.
+
+### Methods
+
+#### `add(disposableOrAdopt: DisposableOrOnDispose): void`
+
+Adds a disposal callback or an object implementing dispose/asyncDispose methods to the controller.
+
+- **Parameters:**
+
+  - `disposableOrAdopt`: A disposal callback or an object with `Symbol.dispose` or `Symbol.asyncDispose` methods.
+
+- **Description:** Adds a disposal callback to the controller. If the provided argument is a function, it is added directly to the `disposes` set. If it is an object implementing `Symbol.dispose` or `Symbol.asyncDispose`, the respective method is added to the `disposes` set as a callback function.
+
+#### `dispose(): void`
+
+Synchronously executes all registered disposal callbacks. Alias for `[Symbol.dispose]()`.
+
+- **Description:** Calls the synchronous dispose method, executing all registered disposal callbacks.
+
+#### `asyncDispose(): Promise<void>`
+
+Asynchronously executes all registered disposal callbacks. Alias for `[Symbol.asyncDispose]()`.
+
+- **Description:** Calls the asynchronous dispose method, executing all registered disposal callbacks and awaiting their completion.
+
+#### `[Symbol.dispose](): void`
+
+Synchronously executes all registered disposal callbacks.
+
+- **Description:** Iterates over the `disposes` set and calls each disposal callback. Sets the `#disposed` property to `true` after all callbacks are executed.
+
+#### `[Symbol.asyncDispose](): Promise<void>`
+
+Asynchronously executes all registered disposal callbacks, awaiting the completion of each.
+
+- **Description:** Iterates over the `disposes` set and calls each disposal callback, awaiting their completion. Sets the `#disposed` property to `true` after all callbacks are executed.
+
+## `disposeWithController`
+
+Creates a disposal controller that manages a set of disposal callbacks. These callbacks can be either synchronous or asynchronous. The controller provides methods to add disposal callbacks and to execute them synchronously or asynchronously.
+
+### Function
+
+#### `disposeWithController(init?: (OnDispose | OnAsyncDispose)[]): DisposeWithController`
+
+Creates a new `DisposeWithController` instance.
+
+- **Parameters:**
+
+  - `init` (optional): An array of disposal callbacks (either synchronous or asynchronous) to initialize the controller with.
+
+- **Returns:**
+  - `DisposeWithController`: A disposal controller instance.
 
 ## License
 
